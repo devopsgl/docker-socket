@@ -1,0 +1,9 @@
+# Maven ve JDK tabanlı resmi imajı kullanıyoruz
+FROM maven:3.8.1-openjdk-<version>
+WORKDIR /app
+# Nexus settings.xml dosyasını konteynıra kopyalıyoruz
+COPY ./settings.xml /root/.m2/settings.xml
+COPY <package_file> pom.xml
+# Maven projesini konteynıra kopyalıyoruz
+# Çalışma dizinini belirtiyoruz
+

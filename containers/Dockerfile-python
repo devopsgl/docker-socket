@@ -1,0 +1,11 @@
+# Python resmi imajı kullanıyoruz
+FROM python:<version>
+
+# Gereksinim dosyasını konteynıra kopyalıyoruz
+WORKDIR /app
+
+# Pip'e Nexus proxy kullanmasını söylemek için pip.conf dosyasını ekliyoruz
+COPY pip.conf /etc/pip.conf
+COPY <package_file> requirements.txt
+
+# Gereksinimleri yüklüyoruz
