@@ -1,9 +1,0 @@
-# Node.js resmi imajı kullanıyoruz
-FROM node:11
-
-# Çalışma dizinini belirtiyoruz
-WORKDIR /app
-
-# NPM'e Nexus proxy kullanmasını söylemek için .npmrc dosyasını ekliyoruz
-COPY ./maven/0e08226c-891e-4303-a613-96afa9714cb7_package.json package.json
-COPY .npmrc /root/.npmrc

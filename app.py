@@ -37,7 +37,17 @@ def replace_multiple_texts_in_file(input_file_path, output_file_path, replacemen
         new_file.write(file_contents)
 
     # Kullanım
+def delete_file(file_path):
+    try:
+        os.remove(file_path)
+        print(f"{file_path} dosyası başarıyla silindi.")
+    except FileNotFoundError:
+        print(f"{file_path} dosyası bulunamadı.")
+    except Exception as e:
+        print(f"{file_path} dosyasını silerken hata oluştu: {e}")
 
+# Kullanım
+file_path = "silmek_istediğiniz_dosya.txt"
 
 def run_docker_container(file_path, suffix,filename):
     container_command = {
@@ -60,6 +70,7 @@ def run_docker_container(file_path, suffix,filename):
 
     try:
         client.images.build(path=f"{DOCKERFILES_PATH}",dockerfile=f"{output_file}", tag=f"{suffix}-{filename}")
+        delete_file(output_file)        
     except docker.errors.BuildError as e:
         return (f"Error building image: {e}")
 
@@ -82,6 +93,7 @@ def run_docker_container(file_path, suffix,filename):
         detach=True,
         auto_remove=False
     )
+
     return container
 
 @app.route('/upload', methods=['POST'])
@@ -105,7 +117,7 @@ def upload_file():
         if container:
             container.wait()
             logs = container.logs().decode('utf-8')
-            #container.remove()
+            container.remove()
             return jsonify({'message': 'File uploaded and container completed', 'logs': logs}), 200
         else:
             return jsonify({'error': 'Failed to start container'}), 500
